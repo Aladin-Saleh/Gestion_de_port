@@ -20,7 +20,7 @@ public Quai(int nbQuai){
 }
 
 public boolean ajouterBateau(){
-    if (this.nbQuaisOccupe != this.nbQuais) {
+    if (this.nbQuaisOccupe < this.nbQuais) {
         this.nbQuaisOccupe++;
         return true;
     }

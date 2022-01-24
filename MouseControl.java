@@ -1,25 +1,49 @@
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
 public class MouseControl implements MouseListener {
 
     private Port[] ports;
-    private Bateau[] bateau;
+    private Mer mer;
+    private Update update;
+    private Thread nThread;
+    private int countThread;
 
-    public MouseControl(Port[] p,Bateau[] b){
-        this.bateau = b;
+
+    public MouseControl(Port[] p,Mer m,Update updt){
         this.ports = p;
+        this.mer = m; 
+        this.update = updt;
+        this.countThread = 0;
     }
 
 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Nouveau bateau créer");
-        bateau = new Bateau[bateau.length+1];
-        bateau[bateau.length+1] = new Bateau(ports[new Random().nextInt(ports.length)]);
+        //Click gauche permet de créer un nouveau bateau.
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            System.out.println("Nouveau bateau créer");
+            //mer.newBateau(ports[new Random().nextInt(ports.length)]);
+        }
+        
+        if(e.getButton() == MouseEvent.BUTTON3){
+            //bateau.get(bateau.size()).setPortArrive(ports[new Random().nextInt(ports.length)]);
+            
+            update.upThread();
+            //this.countThread++;
+
+        }
+
+        
+
+
     }
 
     @Override

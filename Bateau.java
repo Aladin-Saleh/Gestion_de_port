@@ -21,9 +21,9 @@ public Bateau(int x,int y){
 public Bateau(Port pArrive){
     if (pArrive.ajouterBateau()) {
         this.arrive = pArrive;
-        this.estEnMer = true;
-        this.x = 400;//pArrive.getX();
-        this.y = 400;//pArrive.getY();
+        this.estEnMer = false;
+        this.x = pArrive.getX();
+        this.y = pArrive.getY();
     }
     else{
         this.estEnMer = true;
@@ -91,6 +91,7 @@ public void setPortArrive(Port nArrive){
     this.arrive = nArrive;
 
 }
+
 
 
 }

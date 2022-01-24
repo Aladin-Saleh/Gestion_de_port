@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.Graphics;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 import java.awt.*;
 
 public class Mer extends JComponent {
@@ -15,12 +16,17 @@ public class Mer extends JComponent {
 
     //Creation d'un tableau de Port, par défault le nombre de Port est à 1.
     private Port[] ports = new Port[1];
-    private Bateau[] bateaux = new Bateau[1];
+
+
+    private List<Bateau> bateaux = new ArrayList();
     private Random random = new Random();
 
 
+
+
+
     //Constructeur avec tableau de port
-    public Mer(int x,int y,Port[] p,Bateau[] b){
+    public Mer(int x,int y,Port[] p,List<Bateau> b){
       this.iles[0] = new ImageIcon("img/ile1.png");
       this.iles[1] = new ImageIcon("img/ile2.png");
       this.iles[2] = new ImageIcon("img/ile3.png");
@@ -29,7 +35,7 @@ public class Mer extends JComponent {
 
 
       this.ports = new Port[p.length];
-      this.bateaux = new Bateau[b.length];
+      //this.bateaux = new Bateau[b.length];
 
       this.bateaux = b;
       this.ports = p;
@@ -73,9 +79,9 @@ public class Mer extends JComponent {
       }
 
       //Affichage des bateaux.
-      for (int j = 0; j < bateaux.length; j++) {
+      for (int j = 0; j < bateaux.size(); j++) {
         //gPaint.drawString("Quai : "+this.bateaux[j].distance(), this.bateaux[j].getX(),this.bateaux[j].getY()+20);
-        gPaint.drawImage(this.bateau.getImage(), this.bateaux[j].getX(),this.bateaux[j].getY(), 50, 50, this);        
+        gPaint.drawImage(this.bateau.getImage(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY(), 50, 50, this);        
       }
 
 
@@ -85,4 +91,11 @@ public class Mer extends JComponent {
 
 
 
+    public List<Bateau> getBateaux() {
+        return this.bateaux;
+    }
+
+    public void newBateau(Port pArrive){
+      bateaux.add(new Bateau(pArrive));
+    }
 }

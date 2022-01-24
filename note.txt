@@ -1,0 +1,290 @@
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Update {
+    
+
+private Port[] ports = new Port[1];
+private Bateau[] btx;
+private Mer mer;
+
+    public Update(Port[] p,Bateau[] b,Mer m){
+
+        this.ports = new Port[p.length];
+        this.btx = new Bateau[p.length];
+
+        this.ports = p;
+        this.btx = b;
+        this.mer = m;
+
+
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int seconde = 0;
+
+            @Override
+            public void run() {
+                for (int i = 0; i < b.length-1; i++) {
+                    goToDestination(b[i].getPortArrive(), b[i]);
+                }
+                m.repaint();
+                
+            };
+
+        },10 ,10);
+
+    }
+
+
+    public void goToDestination(Port pDestination,Bateau bateau){
+        int xDestination = pDestination.getX();
+        int yDestination = pDestination.getY();
+
+        int xSource = bateau.getX();
+        int ySource = bateau.getY();
+        
+        if ((yDestination-ySource) > 0) {
+            bateau.setY(bateau.getY()+1);
+        }
+        else if((yDestination-ySource) < 0){
+            bateau.setY(bateau.getY()-1);
+        }
+
+        if ((xDestination-xSource) > 0) {
+            bateau.setX(bateau.getX()+1);
+        }
+        else if((xDestination-xSource) < 0){
+            bateau.setX(bateau.getX()-1);
+        }
+        else if((xDestination-xSource) == 0 && (yDestination-ySource) == 0 ){
+            if (bateau.getStatus() ) {
+                bateau.accoster(pDestination);
+            }else{
+                System.out.println("Le bateau est deja accoster !");
+                System.out.println("Il ne vas pas tarder à quitter le port !");
+                bateau.quitter(ports[new Random().nextInt(ports.length)]);
+                
+            }
+
+        }
+
+        System.out.println(bateau.getStatus());
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**------------MER----------------**/
+import javax.swing.*;
+import java.awt.Graphics;
+import java.util.*;
+import java.util.List;
+import java.awt.*;
+
+public class Mer extends JComponent {
+
+    private int x;
+    private int y;
+    private ImageIcon mer = new ImageIcon("img/mer.png");
+    private ImageIcon bateau = new ImageIcon("img/bateau.png");
+
+    private int[] idIles;
+    private ImageIcon[] iles = new ImageIcon[4];
+
+    //Creation d'un tableau de Port, par défault le nombre de Port est à 1.
+    private Port[] ports = new Port[1];
+    private Bateau[] bateaux = new Bateau[1];
+    private Random random = new Random();
+
+
+
+
+
+    //Constructeur avec tableau de port
+    public Mer(int x,int y,Port[] p,Bateau[] b){
+      this.iles[0] = new ImageIcon("img/ile1.png");
+      this.iles[1] = new ImageIcon("img/ile2.png");
+      this.iles[2] = new ImageIcon("img/ile3.png");
+      this.iles[3] = new ImageIcon("img/ile4.png");
+
+
+
+      this.ports = new Port[p.length];
+      this.bateaux = new Bateau[b.length];
+
+      this.bateaux = b;
+      this.ports = p;
+
+      this.x = x;
+      this.y = y;
+
+      //Géneration aléatoire d'un nombre entre 0 et le nombre d'iles.
+      this.idIles = new int[this.ports.length];
+      for (int i = 0; i < p.length; i++) {
+        idIles[i] = random.nextInt(iles.length);
+      }
+
+
+    }
+
+
+
+    
+    @Override
+    protected void paintComponent(Graphics p) {
+      Graphics gPaint = p.create();
+      if (this.isOpaque()) {
+        gPaint.setColor(this.getBackground());
+        gPaint.fillRect(0, 0, this.getWidth(), this.getHeight());
+      }
+
+      //Affichage de la mer en fond d'ecran.
+      gPaint.drawImage(this.mer.getImage(),x,y,900,900,this); 
+
+
+      //Affichage des iles qui sont considerer comme des ports.
+      for (int i = 0; i < this.ports.length; i++) {
+        //Affichage d'une ile en fonction du nombre aleatoire récuperer à la position du port.
+        gPaint.drawImage(iles[idIles[i]].getImage(),this.ports[i].getX(),this.ports[i].getY(),150,150,this);
+        //Affichage du nombre de quai au dessus de l'ile.
+        gPaint.setColor(Color.WHITE);
+        Font font = new Font(" Helvetica ",Font.BOLD,20);  
+        gPaint.setFont(font);
+        gPaint.drawString("Quai disponible : "+this.ports[i].getNbQuais(), this.ports[i].getX(),this.ports[i].getY()+20);
+      }
+
+      //Affichage des bateaux.
+      for (int j = 0; j < bateaux.length; j++) {
+        //gPaint.drawString("Quai : "+this.bateaux[j].distance(), this.bateaux[j].getX(),this.bateaux[j].getY()+20);
+        gPaint.drawImage(this.bateau.getImage(), this.bateaux[j].getX(),this.bateaux[j].getY(), 50, 50, this);        
+      }
+
+
+
+      gPaint.setColor(this.getForeground());
+    }
+
+
+
+}
+
+
+
+
+----------------UPDATE----------------------
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Update {
+    
+
+private Port[] ports = new Port[1];
+private List<Bateau> btx = new ArrayList();
+private Mer mer;
+private Thread[] tBateau;
+
+
+    public Update(Port[] p,List<Bateau> b,Mer m){
+
+        this.ports = new Port[p.length];
+        //this.btx = new Bateau[p.length];
+
+        this.ports = p;
+        this.btx = b;
+        this.mer = m;
+
+//https://www.jmdoudoux.fr/java/dej/chap-threads.htm
+        this.tBateau  = new Thread[btx.size()];
+        for (int i = 0; i < tBateau.length; i++) {
+            int indice = i;
+            tBateau[i] = new Thread(){
+                public void run() {
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            System.out.println("tBateau " +tBateau.length);
+                            System.out.println("btx " +btx.size());
+                            goToDestination(btx.get(indice).getPortArrive(), btx.get(indice),tBateau[indice]);
+                            mer.repaint();
+                        }
+                    } ,10,10);
+
+                    
+                }
+            };
+            tBateau[i].start();
+        } 
+
+    }
+
+
+    public void goToDestination(Port pDestination,Bateau bateau,Thread t){
+        int xDestination = pDestination.getX();
+        int yDestination = pDestination.getY();
+
+        int xSource = bateau.getX();
+        int ySource = bateau.getY();
+        
+        if ((yDestination-ySource) > 0) {
+            bateau.setY(bateau.getY()+1);
+        }
+        else if((yDestination-ySource) < 0){
+            bateau.setY(bateau.getY()-1);
+        }
+
+        if ((xDestination-xSource) > 0) {
+            bateau.setX(bateau.getX()+1);
+        }
+        else if((xDestination-xSource) < 0){
+            bateau.setX(bateau.getX()-1);
+        }
+        else if((xDestination-xSource) == 0 && (yDestination-ySource) == 0 ){
+            if (bateau.getStatus() ) {
+                bateau.accoster(pDestination);
+            }else{
+                System.out.println("Le bateau est deja accoster !");
+                System.out.println("Il ne vas pas tarder à quitter le port !");
+                try {
+                    t.sleep(new Random().nextInt(2000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                bateau.quitter(ports[new Random().nextInt(ports.length)]);
+                
+            }
+
+        }
+
+    }
+
+
+    public void upThread(){
+        this.tBateau = new Thread[this.tBateau.length+1];
+        
+        Port pArrive = ports[new Random().nextInt(ports.length)];
+        mer.newBateau(pArrive);
+    }
+
+
+}
