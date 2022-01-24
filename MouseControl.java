@@ -13,14 +13,11 @@ public class MouseControl implements MouseListener {
     private Mer mer;
     private Update update;
     private Thread nThread;
-    private int countThread;
 
 
-    public MouseControl(Port[] p,Mer m,Update updt){
+    public MouseControl(Port[] p,Mer m){
         this.ports = p;
         this.mer = m; 
-        this.update = updt;
-        this.countThread = 0;
     }
 
 
@@ -29,16 +26,11 @@ public class MouseControl implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         //Click gauche permet de créer un nouveau bateau.
         if (e.getButton() == MouseEvent.BUTTON1) {
-            System.out.println("Nouveau bateau créer");
-            //mer.newBateau(ports[new Random().nextInt(ports.length)]);
         }
         
         if(e.getButton() == MouseEvent.BUTTON3){
-            //bateau.get(bateau.size()).setPortArrive(ports[new Random().nextInt(ports.length)]);
-            
-            update.upThread();
-            //this.countThread++;
-
+            System.out.println("Nouveau bateau créer");
+            //update.upThread();
         }
 
         

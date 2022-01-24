@@ -56,6 +56,9 @@ public int getNbQuais() {
     return this.nbQuais - this.quais.getQuaisOccupe();
 }
 
+public String toString(){
+    return "Coordonnées : "+this.x + " " +this.y;
+}
 
 }
 

@@ -1,3 +1,7 @@
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Bateau {
 
     private Port depart; //= new Port();
@@ -7,30 +11,30 @@ public class Bateau {
     private int x;
     private int y;
 
+    private Thread thread;
+
     public Bateau(int x,int y){
 
-        this.depart = null;
-        this.arrive = null;
-        this.estEnMer = true;
-        this.x = x;
-        this.y = y;
+    this.depart = null;
+    this.arrive = null;
+    this.estEnMer = true;
+    this.x = x;
+    this.y = y;
     }
-
+    
     public Bateau(Port pArrive){
         if (pArrive.ajouterBateau()) {
             this.arrive = pArrive;
-            this.estEnMer = false;
-            this.x = pArrive.getX();
-            this.y = pArrive.getY();
+            this.estEnMer = true;//false;
+            this.x = 400;//pArrive.getX();
+            this.y = 400;//pArrive.getY();
         }
         else{
             this.estEnMer = true;
             this.x = 400;
             this.y = 400;
         }
-
     }
-
 
     public void accoster(Port a){
         if (a.ajouterBateau()) {
@@ -86,4 +90,66 @@ public class Bateau {
         this.arrive = nArrive;
     }
 
+    public void goToDestination(Port pDestination,Port nDestination){
+        int xDestination = pDestination.getX();
+        int yDestination = pDestination.getY();
+
+        int xSource = this.x;
+        int ySource = this.y;
+        
+        if ((yDestination-ySource) > 0) {
+            this.y++;
+        }
+        else if((yDestination-ySource) < 0){
+            this.y--;
+        }
+
+        if ((xDestination-xSource) > 0) {
+            this.x++;
+        }
+        else if((xDestination-xSource) < 0){
+            this.x--;
+        }
+        else if((xDestination-xSource) == 0 && (yDestination-ySource) == 0 ){
+            if (this.getStatus() ) {
+                this.accoster(pDestination);
+            }else{
+                //System.out.println("Le bateau est deja accoster !");
+                //System.out.println("Il ne vas pas tarder à quitter le port !");
+                try {
+                    this.thread.sleep(new Random().nextInt(1000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                this.quitter(nDestination);
+            }
+
+        }
+
+    }
+
+    public void upThread(Port[] ports, Mer mer){
+        
+        Port pArrive = ports[new Random().nextInt(ports.length)];
+        mer.newBateau(pArrive);
+
+            this.thread = new Thread(){
+            public void run() {
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        System.out.println(pArrive.toString());
+                        int ind = mer.getBateaux().size()-1;
+                        Bateau b = mer.getBateaux().get(ind);
+                        goToDestination(pArrive, b);
+                        mer.repaint();
+                    }
+                }, 10,10);
+            }
+        };
+
+        
+        this.thread.start();
+        
+    }
 }
