@@ -80,7 +80,7 @@ public class Mer extends JComponent {
 
       //Affichage des bateaux.
       for (int j = 0; j < bateaux.size(); j++) {
-        gPaint.drawString("Coord : "+this.bateaux.get(j).distance(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY()+20);
+        //gPaint.drawString("Coord : "+this.bateaux.get(j).distance(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY()+20);
         gPaint.drawImage(this.bateau.getImage(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY(), 50, 50, this);        
       }
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Screen extends JFrame{
     
-
     public Screen(){
         this.setLocation(0, 0);
         this.setSize(900,900);
@@ -28,32 +27,35 @@ public class Screen extends JFrame{
 
         
         
-        List<Bateau> bateau = new ArrayList();
-        //bateau.add(new Bateau(ports[0]));
-        //bateau.add(new Bateau(ports[3]));
-        //bateau.add(new Bateau(ports[2]));
-        //bateau.add(new Bateau(ports[0]));
-        //bateau.add(new Bateau(ports[1]));
-        //bateau.add(new Bateau(ports[4]));
-        //bateau.add(new Bateau(ports[2]));
-        //bateau.add(new Bateau(ports[4]));
-        //bateau.add(new Bateau(ports[1]));
-        //bateau.add(new Bateau(ports[4]));
-        //bateau.add(new Bateau(ports[3]));
-        //bateau.add(new Bateau(ports[3]));
-        //bateau.add(new Bateau(ports[1]));
-        //bateau.add(new Bateau(ports[0]));
+        List<Bateau> bateaux = new ArrayList();
+        bateaux.add(new Bateau(ports[0]));
+        //bateaux.add(new Bateau(ports[3]));
+        //bateaux.add(new Bateau(ports[2]));
+        //bateaux.add(new Bateau(ports[0]));
+        //bateaux.add(new Bateau(ports[1]));
+        //bateaux.add(new Bateau(ports[4]));
+        //bateaux.add(new Bateau(ports[2]));
+        //bateaux.add(new Bateau(ports[4]));
+        //bateaux.add(new Bateau(ports[1]));
+        //bateaux.add(new Bateau(ports[4]));
+        //bateaux.add(new Bateau(ports[3]));
+        //bateaux.add(new Bateau(ports[3]));
+        //bateaux.add(new Bateau(ports[1]));
+        //bateaux.add(new Bateau(ports[0]));
         
         Info info = new Info();
         InfoContainer iContainer = new InfoContainer();
         iContainer.setSize(100,900);
         
-        Mer mer = new Mer(0,0,ports,bateau);
-        Update u = new Update(ports, bateau, mer);
-        this.addMouseListener(new MouseControl(ports,mer,u));
+        Mer mer = new Mer(0,0,ports,bateaux);
+        //Update u = new Update(ports, bateau, mer);
+        this.addMouseListener(new MouseControl(ports,mer));
         this.add(mer);
         //this.add(iContainer);
 
+        for (Bateau bateau : bateaux) {
+            
+        }
 
         this.setVisible(true);
     }

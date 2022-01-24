@@ -1,3 +1,7 @@
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Bateau {
 
 private Port depart; //= new Port();
@@ -6,6 +10,8 @@ private boolean estEnMer;
 
 private int x;
 private int y;
+
+private Thread thread;
 
 public Bateau(int x,int y){
 
@@ -30,7 +36,6 @@ public Bateau(Port pArrive){
         this.x = 400;
         this.y = 400;
     }
-
 }
 
 
@@ -40,7 +45,6 @@ public void accoster(Port a){
         this.estEnMer = false;
     }
 }
-
 
 public void quitter(Port nArrive){
     if (this.arrive != null) {
@@ -71,8 +75,6 @@ public void setY(int nY) {
     this.y = nY;
 }
 
-
-
 public int getX() {
     return this.x;
 }
@@ -92,6 +94,46 @@ public void setPortArrive(Port nArrive){
 
 }
 
+public void goToDestination(Port nDestination){
+    int xDestination = this.arrive.getX();
+    int yDestination = this.arrive.getY();
+    
+    if ((yDestination-this.y) > 0) {
+        this.y++;
+    }
+    else if((yDestination-this.y) < 0){
+        this.y--;
+    }
 
+    if ((xDestination-this.x) > 0) {
+        this.x++;
+    }
+    else if((xDestination-this.x) < 0){
+        this.x--;
+    }
+    else if((xDestination-this.x) == 0 && (yDestination-this.y) == 0 ){
+        if (this.getStatus() ) {
+            this.accoster(this.arrive);
+        }else{
+            this.quitter(nDestination);
+        }
+    }
+}
+
+public void upThread(Port[] ports,Mer mer){
+    this.thread = new Thread(){
+        public void run() {
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Port nouvelleDestination = ports[new Random().nextInt(ports.length)];
+                    goToDestination(nouvelleDestination);
+                    mer.repaint();
+                }
+            }, 10,10);
+        }
+    };
+    this.thread.start();
+}
 
 }
