@@ -15,8 +15,6 @@ private Quai quais;
 private int nbQuais;
 
 public Port(int x1,int y1){
-
-
     this.x = x1;
     this.y = y1;
     this.quais = new Quai();

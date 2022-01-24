@@ -22,7 +22,7 @@ private Thread[] tBateau;
         this.btx = b;
         this.mer = m;
 
-//https://www.jmdoudoux.fr/java/dej/chap-threads.htm
+        //https://www.jmdoudoux.fr/java/dej/chap-threads.htm
 
         this.tBateau  = new Thread[btx.size()];
         for (int i = 0; i < btx.size(); i++) {
@@ -39,12 +39,10 @@ private Thread[] tBateau;
                             mer.repaint();
                         }
                     } ,10,10);
-                    
                 }
             };
             tBateau[i].start();
         } 
-
     }
 
 
@@ -80,7 +78,6 @@ private Thread[] tBateau;
                     e.printStackTrace();
                 }
                 bateau.quitter(ports[new Random().nextInt(ports.length)]);
-                
             }
 
         }
@@ -107,10 +104,7 @@ private Thread[] tBateau;
                 }, 10,10);
             }
         };
-
-        
         this.tBateau[btx.size()-1].start();
-        
     }
 
 
