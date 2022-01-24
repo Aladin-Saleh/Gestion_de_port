@@ -72,14 +72,13 @@ private Thread t;
             }else{
                 //System.out.println("Le bateau est deja accoster !");
                 //System.out.println("Il ne vas pas tarder à quitter le port !");
-                try {
+                /*try {
                     t.sleep(new Random().nextInt(1000));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
                 int val = new Random().nextInt(ports.length);
-                System.out.println(val);
-                bateau.quitter(ports[1]);
+                bateau.quitter(ports[val]);
                 
             }
 
@@ -89,17 +88,15 @@ private Thread t;
 
 
     public void upThread(){
-        Port pArrive = ports[new Random().nextInt(ports.length)];
-        mer.newBateau(pArrive);
-
-            t = new Thread(){
+        this.tBateau  = new Thread[btx.size()];
+        tBateau[btx.size()-1] = new Thread(){
             public void run() {
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
                         int ind = mer.getBateaux().size()-1;
                         Bateau b = mer.getBateaux().get(ind);
-                        goToDestination(pArrive, b, t);
+                        goToDestination(b.getPortArrive(), b, t);
                         mer.repaint();
                     }
                 }, 10,10);
@@ -107,7 +104,7 @@ private Thread t;
         };
 
         
-        t.start();
+        tBateau[btx.size()-1].start();
         
     }
 

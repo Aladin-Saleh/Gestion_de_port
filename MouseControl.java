@@ -31,6 +31,8 @@ public class MouseControl implements MouseListener {
         
         if(e.getButton() == MouseEvent.BUTTON3){
             System.out.println("Nouveau bateau créer");
+            Port pArrive = ports[new Random().nextInt(ports.length)];
+            mer.newBateau(pArrive);
             update.upThread();
 
         }
