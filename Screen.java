@@ -28,7 +28,7 @@ public class Screen extends JFrame{
         
         
         List<Bateau> bateaux = new ArrayList();
-        bateaux.add(new Bateau(ports[0]));
+        bateaux.add(new Bateau(ports[4],ports[0]));
         //bateaux.add(new Bateau(ports[3]));
         //bateaux.add(new Bateau(ports[2]));
         //bateaux.add(new Bateau(ports[0]));
@@ -48,12 +48,12 @@ public class Screen extends JFrame{
         iContainer.setSize(100,900);
         
         Mer mer = new Mer(0,0,ports,bateaux);
-        this.addMouseListener(new MouseControl(ports,mer));
+        this.addMouseListener(new MouseControl(ports,mer,bateaux));
         this.add(mer);
         
 
         for (Bateau bateau : bateaux) {
-            bateau.upThread(ports, mer);
+            bateau.upThread(ports, mer,bateaux);
         }
 
         this.setVisible(true);
