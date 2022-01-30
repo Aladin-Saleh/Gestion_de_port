@@ -8,7 +8,7 @@ public class Screen extends JFrame{
     
     public Screen(){
         this.setLocation(0, 0);
-        this.setSize(900,900);
+        this.setSize(1300,1300);
         this.setResizable(false);
         this.setTitle("Les super bateaux wohoo !");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,13 +48,12 @@ public class Screen extends JFrame{
         iContainer.setSize(100,900);
         
         Mer mer = new Mer(0,0,ports,bateaux);
-        //Update u = new Update(ports, bateau, mer);
         this.addMouseListener(new MouseControl(ports,mer));
         this.add(mer);
-        //this.add(iContainer);
+        
 
         for (Bateau bateau : bateaux) {
-            
+            bateau.upThread(ports, mer);
         }
 
         this.setVisible(true);
