@@ -9,7 +9,7 @@ public class Mer extends JComponent {
     private int x;
     private int y;
     private ImageIcon mer = new ImageIcon("img/mer.png");
-    private ImageIcon bateau = new ImageIcon("img/bateau.png");
+    private ImageIcon bateau = new ImageIcon("img/b1.gif");
 
     private int[] idIles;
     private ImageIcon[] iles = new ImageIcon[4];
@@ -64,7 +64,7 @@ public class Mer extends JComponent {
       }
 
       //Affichage de la mer en fond d'ecran.
-      gPaint.drawImage(this.mer.getImage(),x,y,900,900,this); 
+      gPaint.drawImage(this.mer.getImage(),x,y,1300,1300,this); 
 
 
       //Affichage des iles qui sont considerer comme des ports.
@@ -80,7 +80,7 @@ public class Mer extends JComponent {
 
       //Affichage des bateaux.
       for (int j = 0; j < bateaux.size(); j++) {
-        gPaint.drawString("Coord : "+this.bateaux.get(j).distance(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY()+20);
+        //gPaint.drawString("Coord : "+this.bateaux.get(j).distance(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY()+20);
         gPaint.drawImage(this.bateau.getImage(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY(), 50, 50, this);        
       }
 
