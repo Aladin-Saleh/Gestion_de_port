@@ -193,8 +193,42 @@ public class Bateau {
         }    
     }
 
+    public void goToDestination(Port pDestination,Port nDestination){
+        int xDestination = pDestination.getX();
+        int yDestination = pDestination.getY();
 
+        int xSource = this.x;
+        int ySource = this.y;
+        
+        if ((yDestination-ySource) > 0) {
+            this.y++;
+        }
+        else if((yDestination-ySource) < 0){
+            this.y--;
+        }
 
-    
+        if ((xDestination-xSource) > 0) {
+            this.x++;
+        }
+        else if((xDestination-xSource) < 0){
+            this.x--;
+        }
+        else if((xDestination-xSource) == 0 && (yDestination-ySource) == 0 ){
+            if (this.getStatus() ) {
+                this.accoster(pDestination);
+            }else{
+                //System.out.println("Le bateau est deja accoster !");
+                //System.out.println("Il ne vas pas tarder à quitter le port !");
+                try {
+                    this.thread.sleep(new Random().nextInt(1000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                this.quitter(nDestination);
+            }
+
+        }
+
+    }
 
 }
