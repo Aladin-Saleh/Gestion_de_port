@@ -6,10 +6,9 @@ import java.util.ArrayList;
 
 public class Screen extends JFrame{
     
-
     public Screen(){
         this.setLocation(0, 0);
-        this.setSize(900,900);
+        this.setSize(1300,1300);
         this.setResizable(false);
         this.setTitle("Les super bateaux wohoo !");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,36 +27,41 @@ public class Screen extends JFrame{
 
         
         
-        List<Bateau> bateau = new ArrayList();
-        bateau.add(new Bateau(ports[0]));
-        //bateau.add(new Bateau(ports[3]));
-        //bateau.add(new Bateau(ports[2]));
-        //bateau.add(new Bateau(ports[0]));
-        //bateau.add(new Bateau(ports[1]));
-        //bateau.add(new Bateau(ports[4]));
-        //bateau.add(new Bateau(ports[2]));
-        //bateau.add(new Bateau(ports[4]));
-        //bateau.add(new Bateau(ports[1]));
-        //bateau.add(new Bateau(ports[4]));
-        //bateau.add(new Bateau(ports[3]));
-        //bateau.add(new Bateau(ports[3]));
-        //bateau.add(new Bateau(ports[1]));
-        //bateau.add(new Bateau(ports[0]));
+        List<Bateau> bateaux = new ArrayList<Bateau>();
+        bateaux.add(new Bateau(ports[4],ports[0]));
+        //bateaux.add(new Bateau(ports[3]));
+        //bateaux.add(new Bateau(ports[2]));
+        //bateaux.add(new Bateau(ports[0]));
+        //bateaux.add(new Bateau(ports[1]));
+        //bateaux.add(new Bateau(ports[4]));
+        //bateaux.add(new Bateau(ports[2]));
+        //bateaux.add(new Bateau(ports[4]));
+        //bateaux.add(new Bateau(ports[1]));
+        //bateaux.add(new Bateau(ports[4]));
+        //bateaux.add(new Bateau(ports[3]));
+        //bateaux.add(new Bateau(ports[3]));
+        //bateaux.add(new Bateau(ports[1]));
+        //bateaux.add(new Bateau(ports[0]));
+
+        List<Bateau> enemiList = new ArrayList<Bateau>();
         
         Info info = new Info();
         InfoContainer iContainer = new InfoContainer();
         iContainer.setSize(100,900);
         
-        Mer mer = new Mer(0,0,ports,bateau);
-        //Update u = new Update(ports, bateau, mer);
-        this.addMouseListener(new MouseControl(ports,mer));
+        Mer mer = new Mer(0,0,ports,bateaux);
+        this.addMouseListener(new MouseControl(ports,mer,bateaux));
         this.add(mer);
-        //this.add(iContainer);
+        
+
+        for (Bateau bateau : bateaux) {
+            bateau.upThread(ports, mer,bateaux);
+        }
 
         this.setVisible(true);
 
-        for (Bateau bateau2 : bateau) {
-            bateau2.upThread(ports, mer);
+        for (Bateau bateau2 : bateaux) {
+            bateau2.upThread(ports, mer, enemiList);
         }
     }
     

@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -6,23 +7,54 @@ public class Bateau {
 
     private Port depart; //= new Port();
     private Port arrive; //= new Port();
-    private boolean estEnMer;
 
+    //Permet d'identifier si le bateau est en mer ou non.
+    private boolean estEnMer;
+    //Permet d'identifier si le bateau est en guerre ou non.
+    private boolean estEnGuerre;
+    
+
+    //Coordonnées X et Y du bateau sur l'interface.
     private int x;
     private int y;
+
+
+    //Nombre de point de vie du bateau.
+    private int pointDeVie;
+    //Degat que le bateau inflige par seconde.
+    private int degatsParSeconde;
+    //Valeur à laquelle le bateau considère qu'il peut entrer en guerre.
+    private int range;
 
     private Thread thread;
 
     public Bateau(int x,int y){
-
-    this.depart = null;
-    this.arrive = null;
-    this.estEnMer = true;
-    this.x = x;
-    this.y = y;
+        this.range = 5;
+        this.depart = null;
+        this.arrive = null;
+        this.estEnMer = true;
+        this.x = x;
+        this.y = y;
     }
-    
+
+    public Bateau(Port pDepart,Port pArrive){
+        this.range = 5;
+        if (pArrive.ajouterBateau()) {
+            this.depart = pDepart;
+            this.arrive = pArrive;
+            this.estEnMer = true;//false;
+            this.x = pDepart.getX();//pArrive.getX();
+            this.y = pDepart.getY();//pArrive.getY();
+        }
+        else{
+            this.estEnMer = true;
+            this.x = 400;
+            this.y = 400;
+        }
+    }
+
     public Bateau(Port pArrive){
+        this.range = 5;
         if (pArrive.ajouterBateau()) {
             this.arrive = pArrive;
             this.estEnMer = true;//false;
@@ -36,13 +68,13 @@ public class Bateau {
         }
     }
 
+
     public void accoster(Port a){
         if (a.ajouterBateau()) {
             this.arrive = a;
             this.estEnMer = false;
         }
     }
-
 
     public void quitter(Port nArrive){
         if (this.arrive != null) {
@@ -57,6 +89,14 @@ public class Bateau {
     public float distance(){
         if (!estEnMer) {
             return (float)Math.sqrt((this.arrive.getX()*this.arrive.getX()) + (this.depart.getX()*this.depart.getX())) + (float)Math.sqrt((this.arrive.getY()*this.arrive.getY()) + (this.depart.getY()*this.depart.getY()));
+        }
+        return (float)-1;
+    }
+
+
+    public float distanceRestante(){
+        if (estEnMer) {
+            return (float)Math.sqrt((this.arrive.getX()*this.arrive.getX()) + (this.x*this.x)) + (float)Math.sqrt((this.arrive.getY()*this.arrive.getY()) + (this.y*this.y));
         }
         return (float)-1;
     }
@@ -81,6 +121,7 @@ public class Bateau {
         return this.y;
     }
 
+
     public Port getPortArrive(){
         return this.arrive;
     }
@@ -88,6 +129,68 @@ public class Bateau {
     public void setPortArrive(Port nArrive){
         this.depart = this.arrive;
         this.arrive = nArrive;
+
+    }
+
+    public void goToDestination(Port nDestination){
+        int xDestination = this.arrive.getX();
+        int yDestination = this.arrive.getY();
+        
+        if ((yDestination-this.y) > 0) {
+            this.y++;
+        }
+        else if((yDestination-this.y) < 0){
+            this.y--;
+        }
+
+        if ((xDestination-this.x) > 0) {
+            this.x++;
+        }
+        else if((xDestination-this.x) < 0){
+            this.x--;
+        }
+        else if((xDestination-this.x) == 0 && (yDestination-this.y) == 0 ){
+            if (this.getStatus() ) {
+                this.accoster(this.arrive);
+                try {
+                    this.thread.sleep(new Random().nextInt(3000));
+                }
+                catch (Exception err) {
+                    System.err.println("Erreur lors de la pause du thread !");
+                }
+            }else{
+                
+                this.quitter(nDestination);
+            }
+        }
+    }
+
+    public void upThread(Port[] ports,Mer mer,List<Bateau> bateauEnnemi){
+        this.thread = new Thread(){
+            public void run() {
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Port nouvelleDestination = ports[new Random().nextInt(ports.length)];
+                        goToDestination(nouvelleDestination);detectEnnemie(bateauEnnemi);
+                        mer.repaint();
+                    }
+                }, 10,10);
+            }
+        };
+        this.thread.start();
+    }
+
+    //Non fonctionnel pour l'instant.
+    public void detectEnnemie(List<Bateau> bateauEnnemi){
+        for (int i = 0; i < bateauEnnemi.size(); i++) {
+            if (bateauEnnemi.indexOf(this) != i) {
+                if (bateauEnnemi.get(i).x <= (this.x + this.range) ){
+                    System.out.println("Bateau entre en guerre !");
+                }                
+            }
+
+        }    
     }
 
     public void goToDestination(Port pDestination,Port nDestination){
@@ -128,28 +231,4 @@ public class Bateau {
 
     }
 
-    public void upThread(Port[] ports, Mer mer){
-        
-        Port pArrive = ports[new Random().nextInt(ports.length)];
-        mer.newBateau(pArrive);
-
-            this.thread = new Thread(){
-            public void run() {
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        System.out.println(pArrive.toString());
-                        int ind = mer.getBateaux().size()-1;
-                        Bateau b = mer.getBateaux().get(ind);
-                        goToDestination(pArrive, b);
-                        mer.repaint();
-                    }
-                }, 10,10);
-            }
-        };
-
-        
-        this.thread.start();
-        
-    }
 }

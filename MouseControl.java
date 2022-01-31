@@ -11,16 +11,15 @@ public class MouseControl implements MouseListener {
 
     private Port[] ports;
     private Mer mer;
-    private Update update;
     private Thread nThread;
+    private List<Bateau> bateaux = new ArrayList();
+        
 
-
-    public MouseControl(Port[] p,Mer m){
+    public MouseControl(Port[] p,Mer m,List<Bateau> b){
+        this.bateaux = b;
         this.ports = p;
         this.mer = m; 
     }
-
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -30,12 +29,10 @@ public class MouseControl implements MouseListener {
         
         if(e.getButton() == MouseEvent.BUTTON3){
             System.out.println("Nouveau bateau créer");
-            //update.upThread();
+            Port pArrive = ports[new Random().nextInt(ports.length)];
+            mer.newBateau(pArrive);
+            mer.getBateaux().get(mer.getBateaux().size()-1).upThread(this.ports, mer,bateaux);
         }
-
-        
-
-
     }
 
     @Override
