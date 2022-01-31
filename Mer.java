@@ -65,13 +65,13 @@ public class Mer extends JComponent {
 
       //Affichage de la mer en fond d'ecran.
       //gPaint.drawImage(this.mer.getImage(),x,y,1300,1300,this); 
-      gPaint.setColor(Color.BLUE);
+      gPaint.setColor(new Color(62,204,204));
       gPaint.fillRect(0, 0, 1300, 1300);
 
       //Affichage des iles qui sont considerer comme des ports.
       for (int i = 0; i < this.ports.length; i++) {
         //Affichage d'une ile en fonction du nombre aleatoire récuperer à la position du port.
-        gPaint.drawImage(iles[idIles[i]].getImage(),this.ports[i].getX(),this.ports[i].getY(),150,150,this);
+        gPaint.drawImage(iles[idIles[i]].getImage(),this.ports[i].getX(),this.ports[i].getY(),250,250,this);
         //Affichage du nombre de quai au dessus de l'ile.
         gPaint.setColor(Color.WHITE);
         Font font = new Font(" Helvetica ",Font.BOLD,20);  
@@ -82,7 +82,9 @@ public class Mer extends JComponent {
       //Affichage des bateaux.
       for (int j = 0; j < bateaux.size(); j++) {
         //gPaint.drawString("Coord : "+this.bateaux.get(j).distanceRestante(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY()+20);
-        gPaint.drawImage(this.bateau.getImage(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY(), 50, 50, this);        
+        gPaint.drawImage(this.bateau.getImage(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY(), 100, 100, this);    
+        gPaint.setColor(Color.RED);
+        gPaint.drawRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY(),100+this.bateaux.get(j).getRange(), 100+this.bateaux.get(j).getRange());   
       }
 
 

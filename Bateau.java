@@ -29,7 +29,7 @@ public class Bateau {
     private Thread thread;
 
     public Bateau(int x,int y){
-        this.range = 5;
+        this.range = 150;
         this.depart = null;
         this.arrive = null;
         this.estEnMer = true;
@@ -38,7 +38,7 @@ public class Bateau {
     }
 
     public Bateau(Port pDepart,Port pArrive){
-        this.range = 5;
+        this.range = 150;
         if (pArrive.ajouterBateau()) {
             this.depart = pDepart;
             this.arrive = pArrive;
@@ -54,7 +54,7 @@ public class Bateau {
     }
 
     public Bateau(Port pArrive){
-        this.range = 5;
+        this.range = 150;
         if (pArrive.ajouterBateau()) {
             this.arrive = pArrive;
             this.estEnMer = true;//false;
@@ -99,6 +99,10 @@ public class Bateau {
             return (float)Math.sqrt((this.arrive.getX()*this.arrive.getX()) + (this.x*this.x)) + (float)Math.sqrt((this.arrive.getY()*this.arrive.getY()) + (this.y*this.y));
         }
         return (float)-1;
+    }
+
+    public float distanceBateau(int x,int y){
+        return (float)Math.sqrt(Math.pow(this.x - x,2)) + (float)Math.sqrt(Math.pow(this.y - y,2));
     }
 
     public boolean getStatus(){
@@ -172,7 +176,9 @@ public class Bateau {
                     @Override
                     public void run() {
                         Port nouvelleDestination = ports[new Random().nextInt(ports.length)];
-                        goToDestination(nouvelleDestination);detectEnnemie(bateauEnnemi);
+                        if (!detectEnnemie(bateauEnnemi)) {
+                            goToDestination(nouvelleDestination);
+                        }
                         mer.repaint();
                     }
                 }, 10,10);
@@ -182,15 +188,20 @@ public class Bateau {
     }
 
     //Non fonctionnel pour l'instant.
-    public void detectEnnemie(List<Bateau> bateauEnnemi){
+    public boolean detectEnnemie(List<Bateau> bateauEnnemi){
         for (int i = 0; i < bateauEnnemi.size(); i++) {
             if (bateauEnnemi.indexOf(this) != i) {
-                if (bateauEnnemi.get(i).x <= (this.x + this.range) ){
-                    System.out.println("Bateau entre en guerre !");
-                }                
-            }
+            //System.out.println(bateauEnnemi.indexOf(this));
+            float distance = distanceBateau(bateauEnnemi.get(i).getX(), bateauEnnemi.get(i).getY());
+                if (distance <= this.range) {
+                    System.out.println(distance);     
+                    return true;           
+                }
 
+            } 
+            return false;
         }    
+        return false;
     }
 
     public void goToDestination(Port pDestination,Port nDestination){
@@ -231,4 +242,12 @@ public class Bateau {
 
     }
 
+
+
+
+
+
+    public int getRange(){
+        return this.range;
+    }
 }

@@ -29,7 +29,7 @@ public class Screen extends JFrame{
         
         List<Bateau> bateaux = new ArrayList<Bateau>();
         bateaux.add(new Bateau(ports[4],ports[0]));
-        //bateaux.add(new Bateau(ports[3]));
+        bateaux.add(new Bateau(ports[3],ports[4]));
         //bateaux.add(new Bateau(ports[2]));
         //bateaux.add(new Bateau(ports[0]));
         //bateaux.add(new Bateau(ports[1]));
