@@ -42,8 +42,6 @@ public class Screen extends JFrame{
         //bateaux.add(new Bateau(ports[3]));
         //bateaux.add(new Bateau(ports[1]));
         //bateaux.add(new Bateau(ports[0]));
-
-        List<Bateau> enemiList = new ArrayList<Bateau>();
         
         Info info = new Info();
         InfoContainer iContainer = new InfoContainer();
