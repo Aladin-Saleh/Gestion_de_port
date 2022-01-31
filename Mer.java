@@ -9,7 +9,7 @@ public class Mer extends JComponent {
     private int x;
     private int y;
     private ImageIcon mer = new ImageIcon("img/mer.png");
-    private ImageIcon bateau = new ImageIcon("img/b1.gif");
+    private ImageIcon bateau = new ImageIcon("img/bateau.png");
 
     private int[] idIles;
     private ImageIcon[] iles = new ImageIcon[4];
