@@ -59,10 +59,6 @@ public class Screen extends JFrame{
         }
 
         this.setVisible(true);
-
-        for (Bateau bateau2 : bateaux) {
-            bateau2.upThread(ports, mer, enemiList);
-        }
     }
     
 }
