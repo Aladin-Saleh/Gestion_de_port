@@ -26,35 +26,31 @@ public class MouseControl implements MouseListener {
         }
         
         if(e.getButton() == MouseEvent.BUTTON3){
-            System.out.println("Nouveau bateau créer");
+            //Création d'un nouveau bateau et association d'un thread
             Port pArrive = ports[new Random().nextInt(ports.length)];
             mer.newBateau(pArrive);
-            mer.getBateaux().get(mer.getBateaux().size()-1).upThread(this.ports, mer);;
+            mer.getBateaux().get(mer.getBateaux().size()-1).upThread(this.ports, mer);
+            
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-        
     }
-    
 }

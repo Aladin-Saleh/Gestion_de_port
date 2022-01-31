@@ -4,10 +4,8 @@ private int nbQuais;
 private int nbQuaisOccupe;
 
 public Quai(){
-
     this.nbQuais = 3;
     this.nbQuaisOccupe = 0;
-
 }
 
 public Quai(int nbQuai){

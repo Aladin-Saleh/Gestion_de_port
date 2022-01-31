@@ -54,7 +54,7 @@ public class Screen extends JFrame{
         //this.add(iContainer);
 
         for (Bateau bateau : bateaux) {
-            
+            bateau.upThread(ports, mer);
         }
 
         this.setVisible(true);

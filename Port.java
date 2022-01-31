@@ -15,8 +15,6 @@ private Quai quais;
 private int nbQuais;
 
 public Port(int x1,int y1){
-
-
     this.x = x1;
     this.y = y1;
     this.quais = new Quai();
@@ -30,9 +28,6 @@ public Port(int x1,int y1,int nbQuais){
     this.quais = new Quai(nbQuais);
 }
 
-
-
-
 public void retirerBateau(){
     this.quais.retirerBateau();
 }
@@ -44,7 +39,6 @@ public boolean ajouterBateau(){
     return false;
 }
 
-
 public int getX() {
     return this.x;
 }
@@ -53,11 +47,9 @@ public int getY() {
     return this.y;
 }
 
-
 public int getNbQuais() {
     return this.nbQuais - this.quais.getQuaisOccupe();
 }
-
 
 }
 
