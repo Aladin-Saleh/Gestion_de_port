@@ -85,7 +85,7 @@ public class Bateau {
         }
     }
 
-
+    //Formule à refaire.
     public float distance(){
         if (!estEnMer) {
             return (float)Math.sqrt((this.arrive.getX()*this.arrive.getX()) + (this.depart.getX()*this.depart.getX())) + (float)Math.sqrt((this.arrive.getY()*this.arrive.getY()) + (this.depart.getY()*this.depart.getY()));
