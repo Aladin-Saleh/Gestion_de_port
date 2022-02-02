@@ -21,6 +21,7 @@ public class Bateau {
 
     //Nombre de point de vie du bateau.
     private int pointDeVie;
+    private int currentPointDeVie;
     //Degat que le bateau inflige par seconde.
     private int degatsParSeconde;
     //Valeur à laquelle le bateau considère qu'il peut entrer en guerre.
@@ -30,6 +31,9 @@ public class Bateau {
 
     public Bateau(int x,int y){
         this.range = new Random().nextInt(150);
+        this.pointDeVie = new Random().nextInt(2500);
+        this.currentPointDeVie = this.pointDeVie;
+        this.degatsParSeconde = new Random().nextInt(200);
         this.depart = null;
         this.arrive = null;
         this.estEnMer = true;
@@ -39,6 +43,9 @@ public class Bateau {
 
     public Bateau(Port pDepart,Port pArrive){
         this.range = new Random().nextInt(150);
+        this.pointDeVie = new Random().nextInt(2500);
+        this.currentPointDeVie = this.pointDeVie;
+        this.degatsParSeconde = new Random().nextInt(200);
         if (pArrive.ajouterBateau()) {
             this.depart = pDepart;
             this.arrive = pArrive;
@@ -55,6 +62,9 @@ public class Bateau {
 
     public Bateau(Port pArrive){
         this.range = new Random().nextInt(150);
+        this.pointDeVie = new Random().nextInt(2500);
+        this.currentPointDeVie = this.pointDeVie;
+        this.degatsParSeconde = new Random().nextInt(200);
         if (pArrive.ajouterBateau()) {
             this.arrive = pArrive;
             this.estEnMer = true;//false;
@@ -181,6 +191,9 @@ public class Bateau {
                         if (estEnGuerre == false) {
                             goToDestination(nouvelleDestination);
                         }
+                        else{
+                            currentPointDeVie--;
+                        }
                         mer.repaint();
                     }
                 }, 10,10);
@@ -255,5 +268,10 @@ public class Bateau {
 
     public int getRange(){
         return this.range;
+    }
+
+
+    public int lifePourcentage(){
+        return (this.currentPointDeVie/pointDeVie)*100;
     }
 }
