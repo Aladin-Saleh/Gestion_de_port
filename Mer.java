@@ -12,7 +12,7 @@ public class Mer extends JComponent {
     private ImageIcon bateau = new ImageIcon("img/bateau_rouge.png");
 
     private int[] idIles;
-    private ImageIcon[] iles = new ImageIcon[4];
+    private ImageIcon[] iles = new ImageIcon[5];
 
     //Creation d'un tableau de Port, par défault le nombre de Port est à 1.
     private Port[] ports = new Port[1];
@@ -27,7 +27,7 @@ public class Mer extends JComponent {
       this.iles[1] = new ImageIcon("img/ile2.png");
       this.iles[2] = new ImageIcon("img/ile3.png");
       this.iles[3] = new ImageIcon("img/ile4.png");
-
+      this.iles[4] = new ImageIcon("img/ile5.png");
 
 
       this.ports = new Port[p.length];
