@@ -78,8 +78,8 @@ public class Mer extends JComponent {
         //gPaint.drawRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY(),this.bateaux.get(j).getRange(), this.bateaux.get(j).getRange());  
         //Barre de vie
         gPaint.setColor(Color.GREEN);
-        gPaint.fillRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY()+100,(this.bateaux.get(j).lifePourcentage()), 15);
-        
+        gPaint.fillRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY()+100,100+(this.bateaux.get(j).lifePourcentage()), 15);
+
         
       }
 

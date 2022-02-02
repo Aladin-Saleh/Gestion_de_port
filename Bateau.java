@@ -27,6 +27,9 @@ public class Bateau {
     //Valeur à laquelle le bateau considère qu'il peut entrer en guerre.
     private int range;
 
+    //Id du bateau avec qui il est en guerre.
+    private int idEnemie;
+
     private Thread thread;
 
     public Bateau(int x,int y){
@@ -186,13 +189,22 @@ public class Bateau {
                     @Override
                     public void run() {
                         Port nouvelleDestination = ports[new Random().nextInt(ports.length)];
-                        System.out.println(estEnGuerre);
+                        
                         detectEnnemie(bateauEnnemi);
                         if (estEnGuerre == false) {
                             goToDestination(nouvelleDestination);
                         }
                         else{
-                            currentPointDeVie--;
+                            new Timer().schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    currentPointDeVie = currentPointDeVie - bateauEnnemi.get(idEnemie).getDegat();
+                                    if (currentPointDeVie == 0) {
+                                        estEnGuerre = false;
+                                        bateauEnnemi.get(idEnemie).changeEtat();
+                                    }
+                                }
+                            } ,1000,1000);
                         }
                         mer.repaint();
                     }
@@ -213,6 +225,9 @@ public class Bateau {
                     System.out.println("Guerre entre le bateau " + bateauEnnemi.indexOf(this) + " et le bateau " +i);     
                     this.changeEtat();
                     bateauEnnemi.get(i).changeEtat();
+                    bateauEnnemi.get(i).setIdEnnemi(bateauEnnemi.indexOf(this));
+                    this.idEnemie = i;
+
 
                 }
 
@@ -261,8 +276,17 @@ public class Bateau {
     }
 
 
+    public int getDegat(){
+        return this.degatsParSeconde;
+    }
+
+
+    public void setIdEnnemi(int i){
+        this.idEnemie = i;
+    }
+
     public void changeEtat(){
-        this.estEnGuerre = true;
+        this.estEnGuerre = !this.estEnGuerre;
     }
 
 
@@ -272,6 +296,7 @@ public class Bateau {
 
 
     public int lifePourcentage(){
-        return (this.currentPointDeVie/pointDeVie)*100;
+        
+        return this.currentPointDeVie/100;
     }
 }
