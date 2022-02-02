@@ -75,7 +75,7 @@ public class Mer extends JComponent {
         gPaint.drawString("Coord : "+this.bateaux.get(j).distanceRestante(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY()+20);
         gPaint.drawImage(this.bateau.getImage(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY(), 100, 100, this);    
         gPaint.setColor(Color.RED);
-        gPaint.drawRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY(),100+this.bateaux.get(j).getRange(), 100+this.bateaux.get(j).getRange());   
+        gPaint.drawRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY(),this.bateaux.get(j).getRange(), this.bateaux.get(j).getRange());   
       }
 
       gPaint.setColor(this.getForeground());

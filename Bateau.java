@@ -29,7 +29,7 @@ public class Bateau {
     private Thread thread;
 
     public Bateau(int x,int y){
-        this.range = 150;
+        this.range = new Random().nextInt(150);
         this.depart = null;
         this.arrive = null;
         this.estEnMer = true;
@@ -38,7 +38,7 @@ public class Bateau {
     }
 
     public Bateau(Port pDepart,Port pArrive){
-        this.range = 150;
+        this.range = new Random().nextInt(150);
         if (pArrive.ajouterBateau()) {
             this.depart = pDepart;
             this.arrive = pArrive;
@@ -54,7 +54,7 @@ public class Bateau {
     }
 
     public Bateau(Port pArrive){
-        this.range = 150;
+        this.range = new Random().nextInt(150);
         if (pArrive.ajouterBateau()) {
             this.arrive = pArrive;
             this.estEnMer = true;//false;
@@ -176,7 +176,9 @@ public class Bateau {
                     @Override
                     public void run() {
                         Port nouvelleDestination = ports[new Random().nextInt(ports.length)];
-                        if (!detectEnnemie(bateauEnnemi)) {
+                        System.out.println(estEnGuerre);
+                        detectEnnemie(bateauEnnemi);
+                        if (estEnGuerre == false) {
                             goToDestination(nouvelleDestination);
                         }
                         mer.repaint();
@@ -189,20 +191,22 @@ public class Bateau {
     
 
     //Non fonctionnel pour l'instant.
-    public boolean detectEnnemie(List<Bateau> bateauEnnemi){
+    public void detectEnnemie(List<Bateau> bateauEnnemi){
         for (int i = 0; i < bateauEnnemi.size(); i++) {
             if (bateauEnnemi.indexOf(this) != i) {
             //System.out.println(bateauEnnemi.indexOf(this));
             float distance = distanceBateau(bateauEnnemi.get(i).getX(), bateauEnnemi.get(i).getY());
                 if (distance <= this.range) {
-                    System.out.println(distance);     
-                    return true;           
+                    System.out.println("Guerre entre le bateau " + bateauEnnemi.indexOf(this) + " et le bateau " +i);     
+                    this.changeEtat();
+                    bateauEnnemi.get(i).changeEtat();
+
                 }
 
             } 
-            return false;
+            
         }    
-        return false;
+        
     }
 
     public void goToDestination(Port pDestination,Port nDestination){
@@ -242,6 +246,12 @@ public class Bateau {
         }
 
     }
+
+
+    public void changeEtat(){
+        this.estEnGuerre = true;
+    }
+
 
     public int getRange(){
         return this.range;
