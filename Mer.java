@@ -55,8 +55,12 @@ public class Mer extends JComponent {
       }
 
       //Affichage de la mer en fond d'ecran.
-      //gPaint.drawImage(this.mer.getImage(),x,y,1300,1300,this); 
-      gPaint.setColor(new Color(62,204,204));
+      /*for(int i = 0;i<13;i++){
+        for(int j = 0;j<12;j++){
+          gPaint.drawImage(this.mer.getImage(),i*100,j*100,100,100,this); 
+        }
+      }*/
+      /gPaint.setColor(new Color(62,204,204));
       gPaint.fillRect(0, 0, 1300, 1300);
 
       //Affichage des iles qui sont considerer comme des ports.
