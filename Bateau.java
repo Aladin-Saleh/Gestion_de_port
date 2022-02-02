@@ -186,6 +186,7 @@ public class Bateau {
         };
         this.thread.start();
     }
+    
 
     //Non fonctionnel pour l'instant.
     public boolean detectEnnemie(List<Bateau> bateauEnnemi){
@@ -241,11 +242,6 @@ public class Bateau {
         }
 
     }
-
-
-
-
-
 
     public int getRange(){
         return this.range;
