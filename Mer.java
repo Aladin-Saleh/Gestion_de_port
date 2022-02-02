@@ -74,9 +74,15 @@ public class Mer extends JComponent {
       for (int j = 0; j < bateaux.size(); j++) {
         gPaint.drawString("Coord : "+this.bateaux.get(j).distanceRestante(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY()+20);
         gPaint.drawImage(this.bateau.getImage(), this.bateaux.get(j).getX(),this.bateaux.get(j).getY(), 100, 100, this);    
-        gPaint.setColor(Color.RED);
-        gPaint.drawRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY(),this.bateaux.get(j).getRange(), this.bateaux.get(j).getRange());   
+        //gPaint.setColor(Color.RED);
+        //gPaint.drawRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY(),this.bateaux.get(j).getRange(), this.bateaux.get(j).getRange());  
+        //Barre de vie
+        gPaint.setColor(Color.GREEN);
+        gPaint.fillRect(this.bateaux.get(j).getX(), this.bateaux.get(j).getY()+100,(this.bateaux.get(j).lifePourcentage()), 15);
+        
+        
       }
+
 
       gPaint.setColor(this.getForeground());
     }
