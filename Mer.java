@@ -21,10 +21,6 @@ public class Mer extends JComponent {
     private List<Bateau> bateaux = new ArrayList<>();
     private Random random = new Random();
 
-
-
-
-
     //Constructeur avec tableau de port
     public Mer(int x,int y,Port[] p,List<Bateau> b){
       this.iles[0] = new ImageIcon("img/ile1.png");
@@ -48,13 +44,8 @@ public class Mer extends JComponent {
       for (int i = 0; i < p.length; i++) {
         idIles[i] = random.nextInt(iles.length);
       }
-
-
     }
 
-
-
-    
     @Override
     protected void paintComponent(Graphics p) {
       Graphics gPaint = p.create();
