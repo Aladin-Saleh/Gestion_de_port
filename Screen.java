@@ -17,19 +17,19 @@ public class Screen extends JFrame{
         this.setLayout(gLayout);
 
         //Définition de port fixe.
-        Port[] ports = new Port[5];
-        ports[0] = new Port(50,600,5);
-        ports[1] = new Port(500,0,12);
-        ports[2] = new Port(400,200,6);
-        ports[3] = new Port(300,700,8);
-        ports[4] = new Port(100,50,7);
+        List<Port> ports = new ArrayList<Port>();
+        ports.add(new Port(50,600,5));
+        ports.add(new Port(500,0,12));
+        ports.add(new Port(400,200,6));
+        ports.add(new Port(300,700,8));
+        ports.add(new Port(100,50,7));
 
 
         
         
         List<Bateau> bateaux = new ArrayList<Bateau>();
-        bateaux.add(new Bateau(ports[4],ports[0]));
-        bateaux.add(new Bateau(ports[3],ports[4]));
+        bateaux.add(new Bateau(ports.get(4),ports.get(0)));
+        bateaux.add(new Bateau(ports.get(3),ports.get(4)));
         //bateaux.add(new Bateau(ports[2]));
         //bateaux.add(new Bateau(ports[0]));
         //bateaux.add(new Bateau(ports[1]));

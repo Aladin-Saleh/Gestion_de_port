@@ -182,13 +182,13 @@ public class Bateau {
         }
     }
 
-    public void upThread(Port[] ports,Mer mer,List<Bateau> bateauEnnemi){
+    public void upThread(List<Port> ports,Mer mer,List<Bateau> bateauEnnemi){
         this.thread = new Thread(){
             public void run() {
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        Port nouvelleDestination = ports[new Random().nextInt(ports.length)];
+                        Port nouvelleDestination = ports.get(new Random().nextInt(ports.size())); 
                         
                         detectEnnemie(bateauEnnemi);
                         if (estEnGuerre == false) {
@@ -222,7 +222,7 @@ public class Bateau {
             //System.out.println(bateauEnnemi.indexOf(this));
             float distance = distanceBateau(bateauEnnemi.get(i).getX(), bateauEnnemi.get(i).getY());
                 if (distance <= this.range) {
-                    System.out.println("Guerre entre le bateau " + bateauEnnemi.indexOf(this) + " et le bateau " +i);     
+                    //System.out.println("Guerre entre le bateau " + bateauEnnemi.indexOf(this) + " et le bateau " +i);     
                     this.changeEtat();
                     bateauEnnemi.get(i).changeEtat();
                     bateauEnnemi.get(i).setIdEnnemi(bateauEnnemi.indexOf(this));

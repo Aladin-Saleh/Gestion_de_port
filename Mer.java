@@ -11,38 +11,38 @@ public class Mer extends JComponent {
     private ImageIcon mer = new ImageIcon("img/mer.png");
     private ImageIcon bateau = new ImageIcon("img/bateau_rouge.png");
 
-    private int[] idIles;
+    private List<Integer> idIles;
     private ImageIcon[] iles = new ImageIcon[5];
 
     //Creation d'un tableau de Port, par défault le nombre de Port est à 1.
-    private Port[] ports = new Port[1];
+    private List<Port> ports = new ArrayList<Port>();
 
 
     private List<Bateau> bateaux = new ArrayList<>();
     private Random random = new Random();
 
     //Constructeur avec tableau de port
-    public Mer(int x,int y,Port[] p,List<Bateau> b){
+    public Mer(int x,int y,List<Port> p,List<Bateau> b){
       this.iles[0] = new ImageIcon("img/ile1.png");
       this.iles[1] = new ImageIcon("img/ile2.png");
       this.iles[2] = new ImageIcon("img/ile3.png");
       this.iles[3] = new ImageIcon("img/ile4.png");
       this.iles[4] = new ImageIcon("img/ile5.png");
 
-
-      this.ports = new Port[p.length];
       //this.bateaux = new Bateau[b.length];
 
       this.bateaux = b;
-      this.ports = p;
+      for (int i = 0; i<p.size();i++){
+        this.ports.add(p.get(i));
+      }
 
       this.x = x;
       this.y = y;
 
       //Géneration aléatoire d'un nombre entre 0 et le nombre d'iles.
-      this.idIles = new int[this.ports.length];
-      for (int i = 0; i < p.length; i++) {
-        idIles[i] = random.nextInt(iles.length);
+      this.idIles = new ArrayList<Integer>();
+      for (int i = 0; i < this.ports.size(); i++) {
+        idIles.add(random.nextInt(iles.length));
       }
     }
 
@@ -54,24 +54,19 @@ public class Mer extends JComponent {
         gPaint.fillRect(0, 0, this.getWidth(), this.getHeight());
       }
 
-      //Affichage de la mer en fond d'ecran.
-      /*for(int i = 0;i<13;i++){
-        for(int j = 0;j<12;j++){
-          gPaint.drawImage(this.mer.getImage(),i*100,j*100,100,100,this); 
-        }
-      }*/
+      
       gPaint.setColor(new Color(62,204,204));
       gPaint.fillRect(0, 0, 1300, 1300);
 
       //Affichage des iles qui sont considerer comme des ports.
-      for (int i = 0; i < this.ports.length; i++) {
+      for (int i = 0; i < this.ports.size(); i++) {
         //Affichage d'une ile en fonction du nombre aleatoire récuperer à la position du port.
-        gPaint.drawImage(iles[idIles[i]].getImage(),this.ports[i].getX(),this.ports[i].getY(),250,250,this);
+        gPaint.drawImage(iles[idIles.get(i)].getImage(),this.ports.get(i).getX(),this.ports.get(i).getY(),250,250,this);
         //Affichage du nombre de quai au dessus de l'ile.
         gPaint.setColor(Color.WHITE);
         Font font = new Font(" Helvetica ",Font.BOLD,20);  
         gPaint.setFont(font);
-        gPaint.drawString("Quai disponible : "+this.ports[i].getNbQuais(), this.ports[i].getX(),this.ports[i].getY()+20);
+        gPaint.drawString("Quai disponible : "+this.ports.get(i).getNbQuais(), this.ports.get(i).getX(),this.ports.get(i).getY()+20);
       }
 
       //Affichage des bateaux.
@@ -100,6 +95,11 @@ public class Mer extends JComponent {
 
     public void newBateau(Port pArrive){
       bateaux.add(new Bateau(pArrive));
+    }
+
+    public void ajouterPort(Port port){
+      this.ports.add(port);
+      this.idIles.add(new Random().nextInt(this.iles.length));
     }
 
 }
