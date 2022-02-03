@@ -14,6 +14,7 @@ public class MouseControl implements MouseListener {
     private Thread nThread;
     private List<Bateau> bateaux = new ArrayList();
         
+    
 
     public MouseControl(Port[] p,Mer m,List<Bateau> b){
         this.bateaux = b;

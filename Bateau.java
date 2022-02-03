@@ -12,8 +12,8 @@ public class Bateau {
     private boolean estEnMer;
     //Permet d'identifier si le bateau est en guerre ou non.
     private boolean estEnGuerre;
-    
-
+    //Permet d'identifier si le bateau est en "vie".
+    private boolean estVie;
     //Coordonnées X et Y du bateau sur l'interface.
     private int x;
     private int y;
@@ -35,8 +35,9 @@ public class Bateau {
     public Bateau(int x,int y){
         this.range = new Random().nextInt(150);
         this.pointDeVie = new Random().nextInt(2500);
+        this.estVie = true;
         this.currentPointDeVie = this.pointDeVie;
-        this.degatsParSeconde = new Random().nextInt(200);
+        this.degatsParSeconde = new Random().nextInt(50);
         this.depart = null;
         this.arrive = null;
         this.estEnMer = true;
@@ -47,8 +48,9 @@ public class Bateau {
     public Bateau(Port pDepart,Port pArrive){
         this.range = new Random().nextInt(150);
         this.pointDeVie = new Random().nextInt(2500);
+        this.estVie = true;
         this.currentPointDeVie = this.pointDeVie;
-        this.degatsParSeconde = new Random().nextInt(200);
+        this.degatsParSeconde = new Random().nextInt(50);
         if (pArrive.ajouterBateau()) {
             this.depart = pDepart;
             this.arrive = pArrive;
@@ -66,8 +68,9 @@ public class Bateau {
     public Bateau(Port pArrive){
         this.range = new Random().nextInt(150);
         this.pointDeVie = new Random().nextInt(2500);
+        this.estVie = true;
         this.currentPointDeVie = this.pointDeVie;
-        this.degatsParSeconde = new Random().nextInt(200);
+        this.degatsParSeconde = new Random().nextInt(50);
         if (pArrive.ajouterBateau()) {
             this.arrive = pArrive;
             this.estEnMer = true;//false;
@@ -109,7 +112,7 @@ public class Bateau {
 
     public float distanceRestante(){
         if (estEnMer) {
-            return (float)Math.sqrt(Math.pow(this.arrive.getX()+this.x,2) + Math.pow(this.arrive.getY()+this.y,2));
+            return (float)Math.sqrt(Math.pow(this.arrive.getX()-this.x,2) + Math.pow(this.arrive.getY()-this.y,2));
         }
         return (float)-1;
     }
@@ -151,7 +154,7 @@ public class Bateau {
 
     public void goToDestination(Port nDestination){
         int xDestination = this.arrive.getX();
-        int yDestination = this.arrive.getY()+50;
+        int yDestination = this.arrive.getY();
         
         if ((yDestination-this.y) > 0) {
             this.y++;
@@ -190,22 +193,56 @@ public class Bateau {
                     public void run() {
                         Port nouvelleDestination = ports[new Random().nextInt(ports.length)];
                         
-                        detectEnnemie(bateauEnnemi);
-                        if (estEnGuerre == false) {
-                            goToDestination(nouvelleDestination);
-                        }
-                        else{
-                            /*new Timer().schedule(new TimerTask() {
-                                @Override
-                                public void run() {*/
-                                    currentPointDeVie = currentPointDeVie - bateauEnnemi.get(idEnemie).getDegat();
-                                    if (currentPointDeVie == 0) {
-                                        estEnGuerre = false;
-                                        bateauEnnemi.get(idEnemie).changeEtat();
+                            if (!estEnGuerre ){
+                                detectEnnemie(bateauEnnemi);
+                                goToDestination(nouvelleDestination);
+                            }
+                            else{
+
+                                try {
+                                    if (getCurrentPV() <= 0 ) {
+                                        System.out.println("Fin de la guerre");
+//                                        changeEtat(false);
+//                                        estVie = false;
+                                        //bateauEnnemi.get(idEnemie).x = -50;
+                                        //bateauEnnemi.get(idEnemie).y = -50;
+                                        y = -50000;
+                                        y = -50000;
+                                        bateauEnnemi.get(idEnemie).changeEtat(false);
+                                        //bateauEnnemi.get(idEnemie).estVie = false;
+                                    }else if( bateauEnnemi.get(idEnemie).estVie){
+//                                        currentPointDeVie -= bateauEnnemi.get(idEnemie).getDegat();
+                                        bateauEnnemi.get(idEnemie).currentPointDeVie -= getDegat();
+
                                     }
-                               /* }
-                            } ,1000,1000);*/
-                        }
+                                    
+                                   if (bateauEnnemi.get(idEnemie).getCurrentPV() <= 0 ) {
+                                        System.out.println("Ennemi : Fin de la guerre");
+                                        //bateauEnnemi.get(idEnemie).changeEtat(false);
+                                        //bateauEnnemi.get(idEnemie).estVie = false;
+                                        changeEtat(false);
+                                        //estVie = false;
+                                        bateauEnnemi.get(idEnemie).x = -50000;
+                                        //x = -50;
+                                        bateauEnnemi.get(idEnemie).y = -50000;
+                                        //y = -50;
+
+                                        
+                                    }else if(estVie){
+//                                        bateauEnnemi.get(idEnemie).currentPointDeVie -= getDegat();
+                                        currentPointDeVie -= bateauEnnemi.get(idEnemie).getDegat();
+
+                                    }
+                                    thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+
+
+                                System.out.println(currentPointDeVie);
+                                System.out.println("Ennemi : " +bateauEnnemi.get(idEnemie).getCurrentPV());
+                            }
                         mer.repaint();
                     }
                 }, 10,10);
@@ -221,13 +258,13 @@ public class Bateau {
             if (bateauEnnemi.indexOf(this) != i) {
             //System.out.println(bateauEnnemi.indexOf(this));
             float distance = distanceBateau(bateauEnnemi.get(i).getX(), bateauEnnemi.get(i).getY());
-                if (distance <= this.range) {
-                    System.out.println("Guerre entre le bateau " + bateauEnnemi.indexOf(this) + " et le bateau " +i);     
-                    this.changeEtat();
-                    bateauEnnemi.get(i).changeEtat();
+                if (distance <= this.range && bateauEnnemi.get(i).estVie == true && !this.estEnGuerre) {
+                    //System.out.println("Guerre entre le bateau " + bateauEnnemi.indexOf(this) + " et le bateau " +i);     
+                    changeEtat(true);
+                    bateauEnnemi.get(i).changeEtat(true);
+                    
                     bateauEnnemi.get(i).setIdEnnemi(bateauEnnemi.indexOf(this));
                     this.idEnemie = i;
-
 
                 }
 
@@ -239,7 +276,7 @@ public class Bateau {
 
     public void goToDestination(Port pDestination,Port nDestination){
         int xDestination = pDestination.getX();
-        int yDestination = pDestination.getY()+50;
+        int yDestination = pDestination.getY();
 
         int xSource = this.x;
         int ySource = this.y;
@@ -275,6 +312,11 @@ public class Bateau {
 
     }
 
+    public boolean estEnVie(){
+        return this.estVie;
+    }
+
+
 
     public int getDegat(){
         return this.degatsParSeconde;
@@ -285,8 +327,8 @@ public class Bateau {
         this.idEnemie = i;
     }
 
-    public void changeEtat(){
-        this.estEnGuerre = !this.estEnGuerre;
+    public void changeEtat(boolean etat){
+        this.estEnGuerre = etat;
     }
 
 
@@ -294,9 +336,15 @@ public class Bateau {
         return this.range;
     }
 
+    public boolean estEnGuerre(){
+        return this.estEnGuerre;
+    }
+    public int getCurrentPV(){
+        return this.currentPointDeVie;
+    }
 
     public int lifePourcentage(){
         
-        return this.currentPointDeVie/100;
+        return this.currentPointDeVie/pointDeVie;
     }
 }
