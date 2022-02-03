@@ -74,8 +74,8 @@ public class Bateau {
         if (pArrive.ajouterBateau()) {
             this.arrive = pArrive;
             this.estEnMer = true;//false;
-            this.x = 400;//pArrive.getX();
-            this.y = 400;//pArrive.getY();
+            this.x = new Random().nextInt(1300);//400;//pArrive.getX();
+            this.y = new Random().nextInt(1300);//400;//pArrive.getY();
         }
         else{
             this.estEnMer = true;
@@ -202,18 +202,15 @@ public class Bateau {
                                 try {
                                     if (getCurrentPV() <= 0 ) {
                                         System.out.println("Fin de la guerre");
-//                                        changeEtat(false);
-//                                        estVie = false;
-                                        //bateauEnnemi.get(idEnemie).x = -50;
-                                        //bateauEnnemi.get(idEnemie).y = -50;
                                         y = -50000;
                                         y = -50000;
                                         bateauEnnemi.get(idEnemie).changeEtat(false);
-                                        //bateauEnnemi.get(idEnemie).estVie = false;
-                                    }else if( bateauEnnemi.get(idEnemie).estVie){
-//                                        currentPointDeVie -= bateauEnnemi.get(idEnemie).getDegat();
-                                        bateauEnnemi.get(idEnemie).currentPointDeVie -= getDegat();
+                                        thread.sleep(1000);
+                                        mer.removeExplosion();
 
+                                    }else if( bateauEnnemi.get(idEnemie).estVie){
+                                        bateauEnnemi.get(idEnemie).currentPointDeVie -= getDegat();
+                                        mer.setExplosion(x,y);
                                     }
                                     
                                    if (bateauEnnemi.get(idEnemie).getCurrentPV() <= 0 ) {
@@ -222,16 +219,12 @@ public class Bateau {
                                         //bateauEnnemi.get(idEnemie).estVie = false;
                                         changeEtat(false);
                                         //estVie = false;
+                                        mer.setExplosion(bateauEnnemi.get(idEnemie).x,bateauEnnemi.get(idEnemie).y);
                                         bateauEnnemi.get(idEnemie).x = -50000;
-                                        //x = -50;
                                         bateauEnnemi.get(idEnemie).y = -50000;
-                                        //y = -50;
-
                                         
                                     }else if(estVie){
-//                                        bateauEnnemi.get(idEnemie).currentPointDeVie -= getDegat();
                                         currentPointDeVie -= bateauEnnemi.get(idEnemie).getDegat();
-
                                     }
                                     thread.sleep(100);
                                 } catch (InterruptedException e) {

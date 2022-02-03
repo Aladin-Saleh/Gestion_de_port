@@ -19,8 +19,8 @@ public class Mer extends JComponent {
     private Port[] ports = new Port[1];
 
 
-    private List<Integer> position = new ArrayList<>();
-
+    private List<Integer> positionXplsionX = new ArrayList<>();
+    private List<Integer> positionXplsionY = new ArrayList<>();
 
     private List<Bateau> bateaux = new ArrayList<>();
     private Random random = new Random();
@@ -95,10 +95,9 @@ public class Mer extends JComponent {
 
         
       }
-      gPaint.drawImage(explosion.getImage(), 500,500, 200, 200, this); 
-
-      for (int iX = 0; iX < xplImg.size(); iX++) {
-        gPaint.drawImage(explosion.getImage(), 500,500, 100, 100, this); 
+      //Explosion
+      for (int iX = 0; iX < positionXplsionX.size(); iX++) {
+        gPaint.drawImage(explosion.getImage(), positionXplsionX.get(iX),positionXplsionY.get(iX)+20, 100, 100, this); 
       }
 
       gPaint.setColor(this.getForeground());
@@ -115,11 +114,19 @@ public class Mer extends JComponent {
       bateaux.add(new Bateau(pArrive));
     }
 
-    public void setExplosion(){
-
+    public void setExplosion(int x, int y){
+        this.positionXplsionX.add(x);
+        this.positionXplsionY.add(y);
     }
 
-
+    public void removeExplosion(){
+      for (int i = 0; i < this.positionXplsionX.size(); i++) {
+        this.positionXplsionX.set(i,-5000);
+        this.positionXplsionY.set(i,-5000);  
+      }
+      
+      
+    }
 
 
 
