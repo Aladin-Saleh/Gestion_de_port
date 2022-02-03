@@ -151,7 +151,7 @@ public class Bateau {
 
     public void goToDestination(Port nDestination){
         int xDestination = this.arrive.getX();
-        int yDestination = this.arrive.getY();
+        int yDestination = this.arrive.getY()+50;
         
         if ((yDestination-this.y) > 0) {
             this.y++;
@@ -195,16 +195,16 @@ public class Bateau {
                             goToDestination(nouvelleDestination);
                         }
                         else{
-                            new Timer().schedule(new TimerTask() {
+                            /*new Timer().schedule(new TimerTask() {
                                 @Override
-                                public void run() {
+                                public void run() {*/
                                     currentPointDeVie = currentPointDeVie - bateauEnnemi.get(idEnemie).getDegat();
                                     if (currentPointDeVie == 0) {
                                         estEnGuerre = false;
                                         bateauEnnemi.get(idEnemie).changeEtat();
                                     }
-                                }
-                            } ,1000,1000);
+                               /* }
+                            } ,1000,1000);*/
                         }
                         mer.repaint();
                     }
@@ -239,7 +239,7 @@ public class Bateau {
 
     public void goToDestination(Port pDestination,Port nDestination){
         int xDestination = pDestination.getX();
-        int yDestination = pDestination.getY();
+        int yDestination = pDestination.getY()+50;
 
         int xSource = this.x;
         int ySource = this.y;

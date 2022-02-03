@@ -8,7 +8,7 @@ public class Mer extends JComponent {
 
     private int x;
     private int y;
-    private ImageIcon mer = new ImageIcon("img/mer.png");
+    private ImageIcon mer = new ImageIcon("img/mer2.png");
     private ImageIcon bateau = new ImageIcon("img/bateau_rouge.png");
 
     private int[] idIles;
@@ -54,14 +54,9 @@ public class Mer extends JComponent {
         gPaint.fillRect(0, 0, this.getWidth(), this.getHeight());
       }
 
-      //Affichage de la mer en fond d'ecran.
-      /*for(int i = 0;i<13;i++){
-        for(int j = 0;j<12;j++){
-          gPaint.drawImage(this.mer.getImage(),i*100,j*100,100,100,this); 
-        }
-      }*/
-      /gPaint.setColor(new Color(62,204,204));
+      gPaint.setColor(new Color(62,204,204));
       gPaint.fillRect(0, 0, 1300, 1300);
+      //gPaint.drawImage(this.mer.getImage(),0,0,1300,1300,this);
 
       //Affichage des iles qui sont considerer comme des ports.
       for (int i = 0; i < this.ports.length; i++) {
