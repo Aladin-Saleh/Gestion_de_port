@@ -109,7 +109,7 @@ public class Bateau {
 
     public float distanceRestante(){
         if (estEnMer) {
-            return (float)Math.sqrt(Math.pow(this.arrive.getX()+this.x,2) + Math.pow(this.arrive.getY()+this.y,2));
+            return (float)Math.sqrt(Math.pow(this.arrive.getX()-this.x,2) + Math.pow(this.arrive.getY()-this.y,2));
         }
         return (float)-1;
     }
@@ -227,7 +227,6 @@ public class Bateau {
                     bateauEnnemi.get(i).changeEtat();
                     bateauEnnemi.get(i).setIdEnnemi(bateauEnnemi.indexOf(this));
                     this.idEnemie = i;
-
 
                 }
 
